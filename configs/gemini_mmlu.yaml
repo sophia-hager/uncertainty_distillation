@@ -1,0 +1,52 @@
+# Example configuration for the Gemini pipeline.
+#
+# Copy this file and edit it, or override any field on the command line:
+#   python scripts/gemini_experiment.py start --config configs/gemini_mmlu.yaml \
+#       n_generations=32 calibration.method=isotonic_regression
+#
+# gcs_bucket and the Google project are read from the environment by default
+# (UD_GCS_BUCKET, UD_GCS_PROJECT, GOOGLE_CLOUD_PROJECT, GOOGLE_CLOUD_LOCATION);
+# set them here instead if you prefer. Bucket names are globally unique, so
+# this must be a bucket you own.
+
+experiment_type: REGULAR
+base_model: gemini-2.5-flash-lite
+
+# Teacher sampling.
+n_generations: 128
+confidence_level: FIVE_BINS
+include_reasoning: false
+generation_config:
+  candidate_count: 8
+  temperature: 1.0
+  thinking_budget: 0
+
+# Distillation.
+augmentation_scheme: CORRECT_PLUS_N
+augmentation_scheme_n: 1
+calibration:
+  method: isotonic_regression
+  validation_split: 0.1
+
+# Data. MMLU-SemiPro gives the answer as the full option text, so
+# answer_field_contains is full_answer and answers are mapped back to letters.
+training_dataset:
+  name: answerdotai/MMLU-SemiPro
+  split: train
+  candidates_field: options
+  answer_field_contains: full_answer
+validation_dataset:
+  name: answerdotai/MMLU-SemiPro
+  split: test
+  candidates_field: options
+  answer_field_contains: full_answer
+dev_set_size: 10
+
+# Vertex AI supervised tuning.
+epochs: 10
+learning_rate_multiplier: 1.0
+adapter_size: 4
+tuned_model_display_name: uncertainty-distilled-model
+
+# Online inference is used automatically unless --full is passed.
+online_inference: false

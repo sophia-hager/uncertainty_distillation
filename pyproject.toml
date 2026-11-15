@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "uncertainty-distillation"
+version = "0.1.0"
+description = "Distilling calibrated, verbalized confidence from a model's own predictive distribution"
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.10"
+dependencies = [
+    "torch>=2.4",
+    "transformers>=4.51",
+    "trl>=0.20",
+    "peft>=0.14",
+    "accelerate>=1.0",
+    "datasets>=3.0",
+    "scikit-learn>=1.5",
+    "numpy>=1.26",
+    "tqdm>=4.66",
+]
+
+[project.optional-dependencies]
+judge = ["openai>=1.40"]
+gemini = [
+    "google-genai>=1.0",
+    "google-cloud-storage>=2.18",
+    "vertexai>=1.70",
+    "omegaconf>=2.3",
+    "pydantic>=2.7",
+]
+
+[tool.setuptools]
+packages = ["uncertainty_distillation", "uncertainty_distillation.gemini"]

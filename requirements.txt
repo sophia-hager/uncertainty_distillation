@@ -1,0 +1,16 @@
+# Core pipeline
+torch>=2.4
+transformers>=4.51
+trl>=0.20
+peft>=0.14
+accelerate>=1.0
+datasets>=3.0
+scikit-learn>=1.5
+numpy>=1.26
+tqdm>=4.66
+
+# Optional: FlashAttention 2 (pass --attn_implementation sdpa to skip it)
+# flash-attn>=2.6
+
+# Optional: LLM judge for open-ended evaluation (needs OPENAI_API_KEY)
+# openai>=1.40

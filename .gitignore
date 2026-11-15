@@ -218,3 +218,12 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Pipeline outputs (all repository-relative)
+data/
+samples/
+datasets/
+runs/
+
+# Weights & Biases run logs
+wandb/
